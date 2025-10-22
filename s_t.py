@@ -11,8 +11,8 @@ from googletrans import Translator
 
 # --- Configuración de la página ---
 st.set_page_config(
-    page_title="Traductor", 
-    page_icon="🎙️", 
+    page_title="Traductor Inteligente", 
+    page_icon="🌐", 
     layout="centered"
 )
 
@@ -23,62 +23,54 @@ st.markdown("""
     
     .main {
         font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
     }
     
     .stApp {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
     
-    .bokeh-button-container {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
+    .main-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     
-    .bokeh-button {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
-        color: white !important;
-        border-radius: 15px !important;
-        font-size: 20px !important;
-        font-weight: bold !important;
-        border: none !important;
-        box-shadow: 0 8px 16px rgba(255, 107, 107, 0.5) !important;
-        transition: all 0.3s ease !important;
-        width: 350px !important;
-        height: 80px !important;
-        margin: 0 auto !important;
-        display: block !important;
+    .gradient-header {
+        background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        margin-bottom: 0 !important;
     }
     
-    .bokeh-button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 12px 24px rgba(255, 107, 107, 0.7) !important;
-        background: linear-gradient(135deg, #ff5252 0%, #e84118 100%) !important;
+    .feature-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        margin-bottom: 0;
     }
     
-    /* Eliminar espacios blancos y fondos del botón de bokeh */
-    .bk-root {
-        background: transparent !important;
+    .stButton>button {
+        border-radius: 15px;
+        height: 60px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
+        border: none;
+        font-size: 18px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
     }
     
-    .bk-canvas {
-        background: transparent !important;
-    }
-    
-    div[data-testid="stBokehEvents"] {
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    div[data-testid="stBokehEvents"] > div {
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
+    .stButton>button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
+        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
     }
     
     .success-box {
@@ -99,33 +91,60 @@ st.markdown("""
         font-size: 16px;
     }
     
-    .stButton>button {
-        border-radius: 15px;
-        height: 60px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
-        border: none;
-        font-size: 18px;
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-        color: white;
+    .bokeh-button {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
+        color: white !important;
+        border-radius: 15px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        border: none !important;
+        box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4) !important;
+        transition: all 0.3s ease !important;
     }
     
-    .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
-        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
+    .bokeh-button:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6) !important;
+    }
+    
+    /* Eliminar espacios blancos */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    .st-emotion-cache-1y4p8pa {
+        padding: 0;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- Botón de grabación ---
-st.markdown('<div class="bokeh-button-container">', unsafe_allow_html=True)
+# --- Contenedor principal ---
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
+# --- Encabezado mejorado ---
+col1, col2 = st.columns([1, 3])
+with col1:
+    try:
+        image = Image.open('OIG7.jpg')
+        st.image(image, width=120)
+    except:
+        st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<h1 class="gradient-header">Traductor Inteligente</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 18px; color: #6c757d; margin-top: -10px;">🎙️ Habla y deja que traduzca por ti</p>', unsafe_allow_html=True)
+
+st.markdown("---")
+
+# --- Sección de grabación mejorada ---
+st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
+
+# Botón de grabación mejorado
 stt_button = Button(
     label="🎤 INICIAR GRABACIÓN", 
     width=350, 
-    height=80,
+    height=70,
     button_type="success",
     css_classes=["bokeh-button"]
 )
@@ -149,40 +168,49 @@ recognition.onresult = function (e) {
 recognition.start();
 """))
 
+# Este componente se renderiza sin banners blancos
 result = streamlit_bokeh_events(
     stt_button,
     events="GET_TEXT",
     key="listen",
     refresh_on_update=False,
-    override_height=90,
+    override_height=85,
     debounce_time=0
 )
-
-st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Mostrar el texto reconocido ---
 if result and "GET_TEXT" in result:
     text = result.get("GET_TEXT")
-    st.markdown("**Texto reconocido:**")
+    st.markdown("### 📝 Texto Reconocido:")
     st.markdown(f'<div class="info-box">{text}</div>', unsafe_allow_html=True)
 
     # Crear carpeta temporal
     os.makedirs("temp", exist_ok=True)
 
-    # --- Configuración de idiomas ---
+    # --- Configuración de idiomas mejorada ---
     translator = Translator()
     LANGUAGES = {
         "Inglés": "en", "Español": "es", "Bengali": "bn",
         "Coreano": "ko", "Mandarín": "zh-cn", "Japonés": "ja"
     }
 
+    st.markdown("### 🌐 Configuración de Traducción")
+    
     col1, col2 = st.columns(2)
     with col1:
-        in_lang = st.selectbox("Idioma de Entrada", list(LANGUAGES.keys()))
+        in_lang = st.selectbox(
+            "**Idioma de Entrada**", 
+            list(LANGUAGES.keys()),
+            help="Selecciona el idioma en el que estás hablando"
+        )
     with col2:
-        out_lang = st.selectbox("Idioma de Salida", list(LANGUAGES.keys()))
+        out_lang = st.selectbox(
+            "**Idioma de Salida**", 
+            list(LANGUAGES.keys()),
+            help="Selecciona el idioma al que quieres traducir"
+        )
     
-    # --- Selección de acento ---
+    # --- Selección de acento mejorada ---
     ACCENTS = {
         "Defecto": "com",
         "Español": "com.mx",
@@ -194,7 +222,12 @@ if result and "GET_TEXT" in result:
         "Sudáfrica": "co.za"
     }
     
-    tld = ACCENTS[st.selectbox("Acento del habla", list(ACCENTS.keys()))]
+    tld = st.selectbox(
+        "**Acento del habla**", 
+        list(ACCENTS.keys()),
+        help="Selecciona el acento para la voz generada"
+    )
+    tld = ACCENTS[tld]
 
     # --- Función de conversión ---
     def text_to_speech(input_lang, output_lang, text, tld):
@@ -206,15 +239,20 @@ if result and "GET_TEXT" in result:
         tts.save(file_path)
         return file_path, trans_text
 
-    display_text = st.checkbox("Mostrar texto traducido")
+    display_text = st.checkbox("Mostrar texto traducido", value=True)
 
-    # --- Botón convertir ---
-    if st.button("🔊 Convertir", type="primary"):
-        audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
-        st.audio(audio_file, format="audio/mp3")
-        if display_text:
-            st.markdown("**Texto traducido:**")
-            st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
+    # --- Botón convertir mejorado ---
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🔊 CONVERTIR Y REPRODUCIR", type="primary", use_container_width=True):
+        with st.spinner("🔄 Traduciendo y generando audio..."):
+            audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
+            
+            st.markdown("### 🔊 Audio Generado")
+            st.audio(audio_file, format="audio/mp3")
+            
+            if display_text:
+                st.markdown("### 📖 Texto Traducido:")
+                st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
 
     # --- Limpieza de archivos antiguos ---
     def remove_old_files(days=7):
@@ -222,3 +260,14 @@ if result and "GET_TEXT" in result:
             if time.time() - os.stat(f).st_mtime > days * 86400:
                 os.remove(f)
     remove_old_files()
+
+# Cerrar contenedor principal
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- Pie de página mejorado ---
+st.markdown(
+    '<div style="text-align: center; color: white; font-size: 14px; padding: 20px;">'
+    'Traductor Inteligente • Hecho con Streamlit'
+    '</div>', 
+    unsafe_allow_html=True
+)
