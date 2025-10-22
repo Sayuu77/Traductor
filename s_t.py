@@ -39,14 +39,6 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
-    .gradient-header {
-        background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        margin-bottom: 0 !important;
-    }
-    
     .stButton>button {
         border-radius: 15px;
         height: 60px;
@@ -58,13 +50,6 @@ st.markdown("""
         background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         color: white;
     }
-    
-    .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
-        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
-    }
-    
     .success-box {
         background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
         border: 1px solid #c3e6cb;
