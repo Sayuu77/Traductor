@@ -23,19 +23,20 @@ st.markdown("""
     
     .main {
         font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fa;
     }
     
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
     }
     
     .main-container {
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
     .gradient-header {
@@ -44,15 +45,6 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         font-weight: 700;
         margin-bottom: 0 !important;
-    }
-    
-    .feature-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        border: 1px solid #e9ecef;
-        margin-bottom: 0;
     }
     
     .stButton>button {
@@ -91,30 +83,66 @@ st.markdown("""
         font-size: 16px;
     }
     
+    .bokeh-button-container {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
     .bokeh-button {
         background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
         color: white !important;
         border-radius: 15px !important;
-        font-size: 18px !important;
+        font-size: 20px !important;
         font-weight: bold !important;
         border: none !important;
-        box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4) !important;
+        box-shadow: 0 8px 16px rgba(255, 107, 107, 0.5) !important;
         transition: all 0.3s ease !important;
+        width: 350px !important;
+        height: 80px !important;
+        margin: 0 auto !important;
+        display: block !important;
     }
     
     .bokeh-button:hover {
         transform: translateY(-3px) !important;
-        box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6) !important;
+        box-shadow: 0 12px 24px rgba(255, 107, 107, 0.7) !important;
+        background: linear-gradient(135deg, #ff5252 0%, #e84118 100%) !important;
     }
     
-    /* Eliminar espacios blancos */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
+    /* Eliminar espacios blancos y fondos del botón de bokeh */
+    .bk-root {
+        background: transparent !important;
     }
     
-    .st-emotion-cache-1y4p8pa {
-        padding: 0;
+    .bk-canvas {
+        background: transparent !important;
+    }
+    
+    div[data-testid="stBokehEvents"] {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    div[data-testid="stBokehEvents"] > div {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Estilos para selectboxes y otros elementos */
+    .stSelectbox > div > div {
+        background: white;
+        border-radius: 10px;
+    }
+    
+    .stCheckbox > div {
+        background: transparent;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -126,7 +154,7 @@ st.markdown('<div class="main-container">', unsafe_allow_html=True)
 col1, col2 = st.columns([1, 3])
 with col1:
     try:
-        image = Image.open('OIG7.jpg')
+        image = Image.open('58.jpg')
         st.image(image, width=120)
     except:
         st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
@@ -140,11 +168,14 @@ st.markdown("---")
 # --- Sección de grabación mejorada ---
 st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
 
+# Contenedor especial para el botón sin fondo
+st.markdown('<div class="bokeh-button-container">', unsafe_allow_html=True)
+
 # Botón de grabación mejorado
 stt_button = Button(
     label="🎤 INICIAR GRABACIÓN", 
     width=350, 
-    height=70,
+    height=80,
     button_type="success",
     css_classes=["bokeh-button"]
 )
@@ -174,9 +205,11 @@ result = streamlit_bokeh_events(
     events="GET_TEXT",
     key="listen",
     refresh_on_update=False,
-    override_height=85,
+    override_height=90,
     debounce_time=0
 )
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Mostrar el texto reconocido ---
 if result and "GET_TEXT" in result:
@@ -266,7 +299,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Pie de página mejorado ---
 st.markdown(
-    '<div style="text-align: center; color: white; font-size: 14px; padding: 20px;">'
+    '<div style="text-align: center; color: #bdc3c7; font-size: 14px; padding: 20px; font-family: Poppins;">'
     'Traductor Inteligente • Hecho con Streamlit'
     '</div>', 
     unsafe_allow_html=True
