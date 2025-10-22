@@ -26,10 +26,6 @@ st.markdown("""
         background-color: #f8f9fa;
     }
     
-    .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    
     .feature-card {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         border-radius: 15px;
@@ -110,7 +106,7 @@ st.markdown('<div class="main-container">', unsafe_allow_html=True)
 col1, col2 = st.columns([1, 3])
 with col1:
     try:
-        image = Image.open('OIG7.jpg')
+        image = Image.open('58.jpg')
         st.image(image, width=120)
     except:
         st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
