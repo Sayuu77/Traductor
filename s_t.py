@@ -1,40 +1,57 @@
-import os
-import glob
-import time
-from PIL import Image
-
 import streamlit as st
+from PIL import Image
 from bokeh.models import Button, CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
-from gtts import gTTS
-from googletrans import Translator
 
-# --- Configuración de la página ---
+# --- Configuración de página ---
 st.set_page_config(page_title="Traductor Inteligente", page_icon="🌐", layout="centered")
 
-# --- Título y descripción ---
+# --- Estilos personalizados ---
+st.markdown("""
+<style>
+/* Fondo general */
+.stApp {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Encabezados */
+h1, h2, h3 {
+    color: #222;
+}
+
+/* Botones */
+.bk-root .bk-btn {
+    background-color: #ff7f50 !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    border-radius: 12px !important;
+    height: 50px !important;
+    width: 250px !important;
+}
+
+/* Caja de texto reconocida */
+.stAlert {
+    border-radius: 12px !important;
+    background-color: #fff3e6 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# --- Título ---
 st.title("🌐 Traductor Inteligente")
-st.subheader("🎙️ Habla y deja que traduzca por ti")
+st.subheader("Habla y deja que traduzca por ti")
 
-# --- Imagen decorativa ---
-image = Image.open('OIG7.jpg')
-st.image(image, width=300)
+# --- Imagen de cabecera ---
+image = Image.open("58.png")
+st.image(image, width=350)
 
-# --- Barra lateral ---
-with st.sidebar:
-    st.header("Instrucciones")
-    st.write(
-        "1️⃣ Presiona el botón **Escuchar**.\n"
-        "2️⃣ Habla lo que deseas traducir.\n"
-        "3️⃣ Selecciona el idioma de entrada y salida.\n"
-        "4️⃣ Escoge el acento y presiona **Convertir**."
-    )
-
-st.markdown("---")
-
-# --- Botón de grabación ---
 st.markdown("## Toca el botón y habla lo que quieres traducir")
-stt_button = Button(label="🎤 Escuchar", width=250, height=50, button_type="success")
+
+# --- Botón Hablar 🎤 ---
+stt_button = Button(label="Hablar", width=250, height=50, button_type="success")
 
 stt_button.js_on_event("button_click", CustomJS(code="""
 var recognition = new webkitSpeechRecognition();
@@ -64,64 +81,5 @@ result = streamlit_bokeh_events(
     debounce_time=0
 )
 
-# --- Mostrar el texto reconocido ---
 if result and "GET_TEXT" in result:
-    text = result.get("GET_TEXT")
-    st.markdown(f"### Texto reconocido:")
-    st.info(text)
-
-    # Crear carpeta temporal
-    os.makedirs("temp", exist_ok=True)
-
-    # --- Configuración de idiomas ---
-    translator = Translator()
-    LANGUAGES = {
-        "Inglés": "en", "Español": "es", "Bengali": "bn",
-        "Coreano": "ko", "Mandarín": "zh-cn", "Japonés": "ja"
-    }
-
-    col1, col2 = st.columns(2)
-    with col1:
-        in_lang = st.selectbox("Idioma de Entrada", list(LANGUAGES.keys()))
-    with col2:
-        out_lang = st.selectbox("Idioma de Salida", list(LANGUAGES.keys()))
-
-    # --- Selección de acento ---
-    ACCENTS = {
-        "Defecto": "com",
-        "Español": "com.mx",
-        "Reino Unido": "co.uk",
-        "Estados Unidos": "com",
-        "Canadá": "ca",
-        "Australia": "com.au",
-        "Irlanda": "ie",
-        "Sudáfrica": "co.za"
-    }
-    tld = ACCENTS[st.selectbox("Acento del habla", list(ACCENTS.keys()))]
-
-    # --- Función de conversión ---
-    def text_to_speech(input_lang, output_lang, text, tld):
-        translation = translator.translate(text, src=input_lang, dest=output_lang)
-        trans_text = translation.text
-        tts = gTTS(trans_text, lang=output_lang, tld=tld, slow=False)
-        safe_name = "".join(c for c in text[:20] if c.isalnum()) or "audio"
-        file_path = f"temp/{safe_name}.mp3"
-        tts.save(file_path)
-        return file_path, trans_text
-
-    display_text = st.checkbox("Mostrar texto traducido")
-
-    # --- Botón convertir ---
-    if st.button("🔊 Convertir", type="primary"):
-        audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
-        st.audio(audio_file, format="audio/mp3")
-        if display_text:
-            st.markdown(f"### Texto traducido:")
-            st.success(translated_text)
-
-    # --- Limpieza de archivos antiguos ---
-    def remove_old_files(days=7):
-        for f in glob.glob("temp/*.mp3"):
-            if time.time() - os.stat(f).st_mtime > days * 86400:
-                os.remove(f)
-    remove_old_files()
+    st.success(f"📝 Texto reconocido: {result.get('GET_TEXT')}")
