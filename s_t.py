@@ -29,6 +29,15 @@ st.markdown("""
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
     }
     
+    .header-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
     .gradient-title {
         background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
         -webkit-background-clip: text;
@@ -73,27 +82,28 @@ st.markdown("""
         background: linear-gradient(135deg, #ff5252 0%, #e84118 100%) !important;
     }
     
-    /* Eliminar cualquier fondo del bokeh */
-    .bk-root, .bk-canvas {
+    /* Eliminar espacios blancos y fondos del botón de bokeh */
+    .bk-root {
         background: transparent !important;
     }
-
-    /* 👇 Cambio solicitado: eliminar cuadro blanco detrás del botón */
+    
+    .bk-canvas {
+        background: transparent !important;
+    }
+    
     div[data-testid="stBokehEvents"] {
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
     }
+    
     div[data-testid="stBokehEvents"] > div {
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-    /* 👆 Cambio solicitado */
     
     .success-box {
         background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
@@ -195,8 +205,10 @@ if result and "GET_TEXT" in result:
     st.markdown("**Texto reconocido:**")
     st.markdown(f'<div class="info-box">{text}</div>', unsafe_allow_html=True)
 
+    # Crear carpeta temporal
     os.makedirs("temp", exist_ok=True)
 
+    # --- Configuración de idiomas ---
     translator = Translator()
     LANGUAGES = {
         "Inglés": "en", "Español": "es", "Bengali": "bn",
@@ -209,6 +221,7 @@ if result and "GET_TEXT" in result:
     with col2:
         out_lang = st.selectbox("Idioma de Salida", list(LANGUAGES.keys()))
     
+    # --- Selección de acento ---
     ACCENTS = {
         "Defecto": "com",
         "Español": "com.mx",
@@ -222,6 +235,7 @@ if result and "GET_TEXT" in result:
     
     tld = ACCENTS[st.selectbox("Acento del habla", list(ACCENTS.keys()))]
 
+    # --- Función de conversión ---
     def text_to_speech(input_lang, output_lang, text, tld):
         translation = translator.translate(text, src=input_lang, dest=output_lang)
         trans_text = translation.text
@@ -233,6 +247,7 @@ if result and "GET_TEXT" in result:
 
     display_text = st.checkbox("Mostrar texto traducido")
 
+    # --- Botón convertir ---
     if st.button("🔊 Convertir", type="primary"):
         audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
         st.audio(audio_file, format="audio/mp3")
@@ -240,6 +255,7 @@ if result and "GET_TEXT" in result:
             st.markdown("**Texto traducido:**")
             st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
 
+    # --- Limpieza de archivos antiguos ---
     def remove_old_files(days=7):
         for f in glob.glob("temp/*.mp3"):
             if time.time() - os.stat(f).st_mtime > days * 86400:
