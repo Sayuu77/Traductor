@@ -23,6 +23,19 @@ st.markdown("""
     
     .main {
         font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+    
+    .stApp {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .main-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     
     .gradient-header {
@@ -30,55 +43,84 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 700;
+        margin-bottom: 0 !important;
     }
     
     .feature-card {
-        background-color: white;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         border-radius: 15px;
         padding: 25px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        border-left: 4px solid #4a8cff;
-        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 1px solid #e9ecef;
+        margin-bottom: 0;
     }
     
     .stButton>button {
-        border-radius: 12px;
-        height: 50px;
-        width: 100%;
+        border-radius: 15px;
+        height: 60px;
         font-weight: 600;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(74, 140, 255, 0.2);
+        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
         border: none;
+        font-size: 18px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
     }
     
     .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
+        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
     }
     
     .success-box {
         background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
         border: 1px solid #c3e6cb;
         border-radius: 12px;
-        padding: 16px;
+        padding: 20px;
         color: #155724;
+        font-size: 16px;
     }
     
     .info-box {
-        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
-        border: 1px solid #bee5eb;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        border: 1px solid #90caf9;
         border-radius: 12px;
-        padding: 16px;
-        color: #0c5460;
+        padding: 20px;
+        color: #0d47a1;
+        font-size: 16px;
     }
     
-    .recording-button {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+    .bokeh-button {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
         color: white !important;
+        border-radius: 15px !important;
         font-size: 18px !important;
+        font-weight: bold !important;
+        border: none !important;
+        box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4) !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .bokeh-button:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 10px 20px rgba(255, 107, 107, 0.6) !important;
+    }
+    
+    /* Eliminar espacios blancos */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    
+    .st-emotion-cache-1y4p8pa {
+        padding: 0;
     }
 </style>
 """, unsafe_allow_html=True)
+
+# --- Contenedor principal ---
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
 # --- Encabezado mejorado ---
 col1, col2 = st.columns([1, 3])
@@ -91,20 +133,20 @@ with col1:
 
 with col2:
     st.markdown('<h1 class="gradient-header">Traductor Inteligente</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size: 18px; color: #6c757d;">🎙️ Habla y deja que traduzca por ti</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size: 18px; color: #6c757d; margin-top: -10px;">🎙️ Habla y deja que traduzca por ti</p>', unsafe_allow_html=True)
 
 st.markdown("---")
 
 # --- Sección de grabación mejorada ---
-st.markdown('<div class="feature-card">', unsafe_allow_html=True)
 st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
 
-# Botón de grabación corregido
+# Botón de grabación mejorado
 stt_button = Button(
-    label="🎤 Iniciar Grabación", 
-    width=300, 
-    height=60,
-    button_type="success"
+    label="🎤 INICIAR GRABACIÓN", 
+    width=350, 
+    height=70,
+    button_type="success",
+    css_classes=["bokeh-button"]
 )
 
 stt_button.js_on_event("button_click", CustomJS(code="""
@@ -126,6 +168,7 @@ recognition.onresult = function (e) {
 recognition.start();
 """))
 
+# Este componente se renderiza sin banners blancos
 result = streamlit_bokeh_events(
     stt_button,
     events="GET_TEXT",
@@ -135,15 +178,11 @@ result = streamlit_bokeh_events(
     debounce_time=0
 )
 
-st.markdown('</div>', unsafe_allow_html=True)
-
 # --- Mostrar el texto reconocido ---
 if result and "GET_TEXT" in result:
     text = result.get("GET_TEXT")
-    st.markdown('<div class="feature-card">', unsafe_allow_html=True)
     st.markdown("### 📝 Texto Reconocido:")
     st.markdown(f'<div class="info-box">{text}</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
     # Crear carpeta temporal
     os.makedirs("temp", exist_ok=True)
@@ -155,7 +194,6 @@ if result and "GET_TEXT" in result:
         "Coreano": "ko", "Mandarín": "zh-cn", "Japonés": "ja"
     }
 
-    st.markdown('<div class="feature-card">', unsafe_allow_html=True)
     st.markdown("### 🌐 Configuración de Traducción")
     
     col1, col2 = st.columns(2)
@@ -190,8 +228,6 @@ if result and "GET_TEXT" in result:
         help="Selecciona el acento para la voz generada"
     )
     tld = ACCENTS[tld]
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
     # --- Función de conversión ---
     def text_to_speech(input_lang, output_lang, text, tld):
@@ -206,20 +242,17 @@ if result and "GET_TEXT" in result:
     display_text = st.checkbox("Mostrar texto traducido", value=True)
 
     # --- Botón convertir mejorado ---
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("🔊 Convertir y Reproducir", type="primary", use_container_width=True):
-            with st.spinner("🔄 Traduciendo y generando audio..."):
-                audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
-                
-                st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-                st.markdown("### 🔊 Audio Generado")
-                st.audio(audio_file, format="audio/mp3")
-                
-                if display_text:
-                    st.markdown("### 📖 Texto Traducido:")
-                    st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
-                st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🔊 CONVERTIR Y REPRODUCIR", type="primary", use_container_width=True):
+        with st.spinner("🔄 Traduciendo y generando audio..."):
+            audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
+            
+            st.markdown("### 🔊 Audio Generado")
+            st.audio(audio_file, format="audio/mp3")
+            
+            if display_text:
+                st.markdown("### 📖 Texto Traducido:")
+                st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
 
     # --- Limpieza de archivos antiguos ---
     def remove_old_files(days=7):
@@ -228,10 +261,12 @@ if result and "GET_TEXT" in result:
                 os.remove(f)
     remove_old_files()
 
+# Cerrar contenedor principal
+st.markdown('</div>', unsafe_allow_html=True)
+
 # --- Pie de página mejorado ---
-st.markdown("---")
 st.markdown(
-    '<div style="text-align: center; color: #6c757d; font-size: 14px;">'
+    '<div style="text-align: center; color: white; font-size: 14px; padding: 20px;">'
     'Traductor Inteligente • Hecho con Streamlit'
     '</div>', 
     unsafe_allow_html=True
