@@ -177,7 +177,6 @@ stt_button = Button(
     width=350, 
     height=80,
     button_type="success",
-    css_classes=["bokeh-button"]
 )
 
 stt_button.js_on_event("button_click", CustomJS(code="""
