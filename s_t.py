@@ -50,7 +50,13 @@ st.markdown("""
         background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         color: white;
     }
-
+    
+    .stButton>button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
+        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
+    }
+    
     .success-box {
         background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
         border: 1px solid #c3e6cb;
@@ -121,7 +127,7 @@ st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
 # Botón de grabación mejorado
 stt_button = Button(
     label="🎤 INICIAR GRABACIÓN", 
-    width=350, 
+    width=300, 
     height=70,
     button_type="success",
     css_classes=["bokeh-button"]
