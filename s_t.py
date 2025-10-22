@@ -26,6 +26,10 @@ st.markdown("""
         background-color: #f8f9fa;
     }
     
+    .stApp {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
     .feature-card {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         border-radius: 15px;
@@ -46,13 +50,7 @@ st.markdown("""
         background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         color: white;
     }
-    
-    .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
-        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
-    }
-    
+
     .success-box {
         background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
         border: 1px solid #c3e6cb;
