@@ -13,8 +13,7 @@ from googletrans import Translator
 st.set_page_config(
     page_title="Traductor Inteligente", 
     page_icon="🌐", 
-    layout="centered",
-    initial_sidebar_state="expanded"
+    layout="centered"
 )
 
 # --- Estilos CSS personalizados ---
@@ -24,25 +23,6 @@ st.markdown("""
     
     .main {
         font-family: 'Poppins', sans-serif;
-    }
-    
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 24px;
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        height: 50px;
-        white-space: pre-wrap;
-        border-radius: 10px 10px 0px 0px;
-        gap: 1px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        background-color: #f0f2f6;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background-color: #4a8cff;
-        color: white;
     }
     
     .gradient-header {
@@ -55,14 +35,10 @@ st.markdown("""
     .feature-card {
         background-color: white;
         border-radius: 15px;
-        padding: 20px;
+        padding: 25px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         border-left: 4px solid #4a8cff;
-        margin-bottom: 15px;
-    }
-    
-    .sidebar .sidebar-content {
-        background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+        margin-bottom: 20px;
     }
     
     .stButton>button {
@@ -72,6 +48,7 @@ st.markdown("""
         font-weight: 600;
         transition: all 0.3s ease;
         box-shadow: 0 4px 6px rgba(74, 140, 255, 0.2);
+        border: none;
     }
     
     .stButton>button:hover {
@@ -94,6 +71,12 @@ st.markdown("""
         padding: 16px;
         color: #0c5460;
     }
+    
+    .recording-button {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+        color: white !important;
+        font-size: 18px !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -104,7 +87,7 @@ with col1:
         image = Image.open('OIG7.jpg')
         st.image(image, width=120)
     except:
-        st.image("🌐", width=120)
+        st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown('<h1 class="gradient-header">Traductor Inteligente</h1>', unsafe_allow_html=True)
@@ -112,46 +95,16 @@ with col2:
 
 st.markdown("---")
 
-# --- Barra lateral mejorada ---
-with st.sidebar:
-    st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-    st.markdown("### 📋 Instrucciones")
-    st.markdown("""
-    1️⃣ **Presiona** el botón Escuchar  
-    2️⃣ **Habla** lo que deseas traducir  
-    3️⃣ **Selecciona** idioma de entrada y salida  
-    4️⃣ **Escoge** el acento y presiona Convertir
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('<div class="feature-card">', unsafe_allow_html=True)
-    st.markdown("### 🌍 Idiomas Disponibles")
-    st.markdown("""
-    - Inglés
-    - Español  
-    - Bengalí
-    - Coreano
-    - Mandarín
-    - Japonés
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
-
 # --- Sección de grabación mejorada ---
 st.markdown('<div class="feature-card">', unsafe_allow_html=True)
 st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
 
+# Botón de grabación corregido
 stt_button = Button(
     label="🎤 Iniciar Grabación", 
     width=300, 
-    height=60, 
-    button_type="success",
-    stylesheets="""
-    :host {
-        border-radius: 15px !important;
-        font-weight: bold !important;
-        font-size: 16px !important;
-    }
-    """
+    height=60,
+    button_type="success"
 )
 
 stt_button.js_on_event("button_click", CustomJS(code="""
@@ -279,7 +232,7 @@ if result and "GET_TEXT" in result:
 st.markdown("---")
 st.markdown(
     '<div style="text-align: center; color: #6c757d; font-size: 14px;">'
-    'Traductor Inteligente • Hecho con ❤️ usando Streamlit'
+    'Traductor Inteligente • Hecho con Streamlit'
     '</div>', 
     unsafe_allow_html=True
 )
