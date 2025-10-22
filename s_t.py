@@ -11,7 +11,7 @@ from googletrans import Translator
 
 # --- Configuración de la página ---
 st.set_page_config(
-    page_title="Traductor", 
+    page_title="Traductor Inteligente", 
     page_icon="🎙️", 
     layout="centered"
 )
@@ -27,6 +27,30 @@ st.markdown("""
     
     .stApp {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+    }
+    
+    .header-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .gradient-title {
+        background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        font-size: 2.5em;
+        margin: 0;
+    }
+    
+    .subtitle {
+        color: #bdc3c7;
+        font-size: 1.1em;
+        margin-top: -5px;
     }
     
     .bokeh-button-container {
@@ -118,6 +142,21 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+# --- Header con título e imagen ---
+st.markdown('<div class="header-container">', unsafe_allow_html=True)
+col1, col2 = st.columns([1, 3])
+with col1:
+    try:
+        image = Image.open('OIG7.jpg')
+        st.image(image, width=120)
+    except:
+        st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<h1 class="gradient-title">Traductor Inteligente</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">🎙️ Habla y deja que traduzca por ti</p>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- Botón de grabación ---
 st.markdown('<div class="bokeh-button-container">', unsafe_allow_html=True)
