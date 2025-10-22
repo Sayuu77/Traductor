@@ -11,8 +11,8 @@ from googletrans import Translator
 
 # --- Configuración de la página ---
 st.set_page_config(
-    page_title="Traductor Inteligente", 
-    page_icon="🌐", 
+    page_title="Traductor", 
+    page_icon="🎙️", 
     layout="centered"
 )
 
@@ -27,60 +27,6 @@ st.markdown("""
     
     .stApp {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
-    }
-    
-    .main-container {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 30px;
-        margin: 20px 0;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .gradient-header {
-        background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        margin-bottom: 0 !important;
-    }
-    
-    .stButton>button {
-        border-radius: 15px;
-        height: 60px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
-        border: none;
-        font-size: 18px;
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-        color: white;
-    }
-    
-    .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
-        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
-    }
-    
-    .success-box {
-        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-        border: 1px solid #c3e6cb;
-        border-radius: 12px;
-        padding: 20px;
-        color: #155724;
-        font-size: 16px;
-    }
-    
-    .info-box {
-        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        border: 1px solid #90caf9;
-        border-radius: 12px;
-        padding: 20px;
-        color: #0d47a1;
-        font-size: 16px;
     }
     
     .bokeh-button-container {
@@ -135,43 +81,47 @@ st.markdown("""
         margin: 0 !important;
     }
     
-    /* Estilos para selectboxes y otros elementos */
-    .stSelectbox > div > div {
-        background: white;
-        border-radius: 10px;
+    .success-box {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border: 1px solid #c3e6cb;
+        border-radius: 12px;
+        padding: 20px;
+        color: #155724;
+        font-size: 16px;
     }
     
-    .stCheckbox > div {
-        background: transparent;
+    .info-box {
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        border: 1px solid #90caf9;
+        border-radius: 12px;
+        padding: 20px;
+        color: #0d47a1;
+        font-size: 16px;
+    }
+    
+    .stButton>button {
+        border-radius: 15px;
+        height: 60px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 12px rgba(74, 140, 255, 0.3);
+        border: none;
+        font-size: 18px;
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+    
+    .stButton>button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(74, 140, 255, 0.4);
+        background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- Contenedor principal ---
-st.markdown('<div class="main-container">', unsafe_allow_html=True)
-
-# --- Encabezado mejorado ---
-col1, col2 = st.columns([1, 3])
-with col1:
-    try:
-        image = Image.open('58.jpg')
-        st.image(image, width=120)
-    except:
-        st.markdown("<div style='text-align: center; font-size: 80px;'>🌐</div>", unsafe_allow_html=True)
-
-with col2:
-    st.markdown('<h1 class="gradient-header">Traductor Inteligente</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="font-size: 18px; color: #6c757d; margin-top: -10px;">🎙️ Habla y deja que traduzca por ti</p>', unsafe_allow_html=True)
-
-st.markdown("---")
-
-# --- Sección de grabación mejorada ---
-st.markdown("### 🎤 Toca el botón y habla lo que quieres traducir")
-
-# Contenedor especial para el botón sin fondo
+# --- Botón de grabación ---
 st.markdown('<div class="bokeh-button-container">', unsafe_allow_html=True)
 
-# Botón de grabación mejorado
 stt_button = Button(
     label="🎤 INICIAR GRABACIÓN", 
     width=350, 
@@ -199,7 +149,6 @@ recognition.onresult = function (e) {
 recognition.start();
 """))
 
-# Este componente se renderiza sin banners blancos
 result = streamlit_bokeh_events(
     stt_button,
     events="GET_TEXT",
@@ -214,36 +163,26 @@ st.markdown('</div>', unsafe_allow_html=True)
 # --- Mostrar el texto reconocido ---
 if result and "GET_TEXT" in result:
     text = result.get("GET_TEXT")
-    st.markdown("### 📝 Texto Reconocido:")
+    st.markdown("**Texto reconocido:**")
     st.markdown(f'<div class="info-box">{text}</div>', unsafe_allow_html=True)
 
     # Crear carpeta temporal
     os.makedirs("temp", exist_ok=True)
 
-    # --- Configuración de idiomas mejorada ---
+    # --- Configuración de idiomas ---
     translator = Translator()
     LANGUAGES = {
         "Inglés": "en", "Español": "es", "Bengali": "bn",
         "Coreano": "ko", "Mandarín": "zh-cn", "Japonés": "ja"
     }
 
-    st.markdown("### 🌐 Configuración de Traducción")
-    
     col1, col2 = st.columns(2)
     with col1:
-        in_lang = st.selectbox(
-            "**Idioma de Entrada**", 
-            list(LANGUAGES.keys()),
-            help="Selecciona el idioma en el que estás hablando"
-        )
+        in_lang = st.selectbox("Idioma de Entrada", list(LANGUAGES.keys()))
     with col2:
-        out_lang = st.selectbox(
-            "**Idioma de Salida**", 
-            list(LANGUAGES.keys()),
-            help="Selecciona el idioma al que quieres traducir"
-        )
+        out_lang = st.selectbox("Idioma de Salida", list(LANGUAGES.keys()))
     
-    # --- Selección de acento mejorada ---
+    # --- Selección de acento ---
     ACCENTS = {
         "Defecto": "com",
         "Español": "com.mx",
@@ -255,12 +194,7 @@ if result and "GET_TEXT" in result:
         "Sudáfrica": "co.za"
     }
     
-    tld = st.selectbox(
-        "**Acento del habla**", 
-        list(ACCENTS.keys()),
-        help="Selecciona el acento para la voz generada"
-    )
-    tld = ACCENTS[tld]
+    tld = ACCENTS[st.selectbox("Acento del habla", list(ACCENTS.keys()))]
 
     # --- Función de conversión ---
     def text_to_speech(input_lang, output_lang, text, tld):
@@ -272,20 +206,15 @@ if result and "GET_TEXT" in result:
         tts.save(file_path)
         return file_path, trans_text
 
-    display_text = st.checkbox("Mostrar texto traducido", value=True)
+    display_text = st.checkbox("Mostrar texto traducido")
 
-    # --- Botón convertir mejorado ---
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🔊 CONVERTIR Y REPRODUCIR", type="primary", use_container_width=True):
-        with st.spinner("🔄 Traduciendo y generando audio..."):
-            audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
-            
-            st.markdown("### 🔊 Audio Generado")
-            st.audio(audio_file, format="audio/mp3")
-            
-            if display_text:
-                st.markdown("### 📖 Texto Traducido:")
-                st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
+    # --- Botón convertir ---
+    if st.button("🔊 Convertir", type="primary"):
+        audio_file, translated_text = text_to_speech(LANGUAGES[in_lang], LANGUAGES[out_lang], text, tld)
+        st.audio(audio_file, format="audio/mp3")
+        if display_text:
+            st.markdown("**Texto traducido:**")
+            st.markdown(f'<div class="success-box">{translated_text}</div>', unsafe_allow_html=True)
 
     # --- Limpieza de archivos antiguos ---
     def remove_old_files(days=7):
@@ -293,14 +222,3 @@ if result and "GET_TEXT" in result:
             if time.time() - os.stat(f).st_mtime > days * 86400:
                 os.remove(f)
     remove_old_files()
-
-# Cerrar contenedor principal
-st.markdown('</div>', unsafe_allow_html=True)
-
-# --- Pie de página mejorado ---
-st.markdown(
-    '<div style="text-align: center; color: #bdc3c7; font-size: 14px; padding: 20px; font-family: Poppins;">'
-    'Traductor Inteligente • Hecho con Streamlit'
-    '</div>', 
-    unsafe_allow_html=True
-)
