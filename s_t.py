@@ -29,15 +29,6 @@ st.markdown("""
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
     }
     
-    .header-container {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 30px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
     .gradient-title {
         background: linear-gradient(90deg, #4a8cff 0%, #6c5ce7 100%);
         -webkit-background-clip: text;
